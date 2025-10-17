@@ -48,12 +48,13 @@ jobs:
         run: |
           pip install pytest
           pytest tests/ || echo "No tests yet"
-
+      
       - name: Setup dbt profile
+        shell: bash
         run: |
           mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml <<EOL
-          banking_dbt:
+          cat > ~/.dbt/profiles.yml <<'YML'
+        banking:
             target: dev
             outputs:
               dev:
@@ -65,7 +66,8 @@ jobs:
                 database: BANKING
                 warehouse: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
                 schema: ANALYTICS
-          EOL
+                threads: 4
+        YAML
 
       - name: dbt compile (validation)
         run: |
