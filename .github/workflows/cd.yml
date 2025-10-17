@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ main ]   # deploy only from main
+    branches: [ main ]   # Deploy only from main branch
 
 jobs:
   deploy:
@@ -10,7 +10,7 @@ jobs:
 
     steps:
       # ------------------------
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       # ------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           cat > ~/.dbt/profiles.yml <<'EOL'
-          banking_dbt:
+          banking:
             target: prod
             outputs:
               prod:
@@ -56,10 +56,19 @@ jobs:
           EOL
 
       # ------------------------
-      # 5️⃣ Deploy dbt project
+      # 5️⃣ Run dbt build (includes run + test)
       # ------------------------
-      - name: Run dbt build (includes run + test)
+      - name: Run dbt build and test in PROD
         working-directory: banking_dbt
         run: |
           dbt deps
           dbt build --target prod
+          dbt test --target prod
+
+      # ------------------------
+      # 6️⃣ Optional: Clean up cache and logs
+      # ------------------------
+      - name: Cleanup
+        run: |
+          rm -rf ~/.dbt/logs || true
+          echo "Deployment completed successfully!"
