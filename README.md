@@ -128,6 +128,10 @@ banking-modern-datastack/
 - **ci.yml** → Lint, dbt compile, run tests.  
 - **cd.yml** → Deploy DAGs & dbt models on merge.  
 
+### **7. PowerBI Dashboard**  
+
+<img width="5647" height="3107" alt="Architecture" src="https://github.com/Dharmil290998/banking-modern-datastack/blob/main/Dashboard.png" />
+
 ---
 
 ## 📊 Final Deliverables  
@@ -136,3 +140,4 @@ banking-modern-datastack/
 - **Orchestrated DAGs in Airflow**  
 - **Synthetic banking dataset** for demos  
 - **CI/CD workflows** ensuring reliability  
+
